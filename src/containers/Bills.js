@@ -7,7 +7,7 @@ import Logout from "./Logout.js"
     data : array
   output :
     array
-  abastract: sorts bills by date from newest date to oldest date
+  abastract: sorts bills by date from newest date to oldest date.
 */
 
 export const getDescSortedBillsByDate = (data) => {

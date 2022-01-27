@@ -5,7 +5,7 @@
 import { screen } from "@testing-library/dom"
 import BillsUI from "../views/BillsUI.js"
 import { bills } from "../fixtures/bills.js"
-import { getDescSortedBillsByDate} from "../containers/Bills.js"
+import { getDescSortedBillsByDate} from "../containers/Bills.js" //sort function imported
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
@@ -15,7 +15,7 @@ describe("Given I am connected as an employee", () => {
       //to-do write expect expression
     })
     test("Then bills should be ordered from earliest to latest", () => {
-      const ordBills = getDescSortedBillsByDate(bills)
+      const ordBills = getDescSortedBillsByDate(bills) //sort function inported
       const html = BillsUI({ data: ordBills })
       document.body.innerHTML = html
       const dates = screen.getAllByText(/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/i).map(a => a.innerHTML)
