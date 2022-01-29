@@ -209,9 +209,9 @@ describe("Given that I am a user on login page", () => {
       const handleSubmit = jest.fn(login.handleSubmitAdmin);
       login.login = jest.fn().mockResolvedValue({});
       form.addEventListener("submit", handleSubmit);
-      fireEvent.submit(form);
+      fireEvent.submit(form); //test crash, see login.js in containers
       expect(handleSubmit).toHaveBeenCalled();
-      expect(window.localStorage.setItem).toHaveBeenCalled();
+      expect(window.localStorage.setItem).toHaveBeenCalled(); //err
       expect(window.localStorage.setItem).toHaveBeenCalledWith(
         "user",
         JSON.stringify({
@@ -224,7 +224,8 @@ describe("Given that I am a user on login page", () => {
     });
 
     test("It should renders HR dashboard page", () => {
-      expect(screen.queryByText("Validations")).toBeTruthy();
+      expect(screen.queryByText("Validations")).toBeTruthy(); //err
+
     });
   });
 });
