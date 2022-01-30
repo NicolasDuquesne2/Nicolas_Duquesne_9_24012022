@@ -70,9 +70,9 @@ export default class {
     this.document = document
     this.onNavigate = onNavigate
     this.store = store
-    $('#arrow-icon1').click((e) => this.handleShowTickets(e, bills, 1))
-    $('#arrow-icon2').click((e) => this.handleShowTickets(e, bills, 2))
-    $('#arrow-icon3').click((e) => this.handleShowTickets(e, bills, 3))
+    $('#arrow-icon1').on('click', (e) => this.handleShowTickets(e, bills, 1))
+    $('#arrow-icon2').on('click', (e) => this.handleShowTickets(e, bills, 2))
+    $('#arrow-icon3').on('click', (e) => this.handleShowTickets(e, bills, 3))
     this.getBillsAllUsers()
     new Logout({ localStorage, onNavigate })
   }
@@ -85,6 +85,7 @@ export default class {
   }
 
   handleEditTicket(e, bill, bills) {
+    e.stopImmediatePropagation() // fixes the bug on bill selection
     if (this.counter === undefined || this.id !== bill.id) this.counter = 0
     if (this.id === undefined || this.id !== bill.id) this.id = bill.id
     if (this.counter % 2 === 0) {
@@ -104,9 +105,9 @@ export default class {
       $('.vertical-navbar').css({ height: '120vh' })
       this.counter ++
     }
-    $('#icon-eye-d').click(this.handleClickIconEye)
-    $('#btn-accept-bill').click((e) => this.handleAcceptSubmit(e, bill))
-    $('#btn-refuse-bill').click((e) => this.handleRefuseSubmit(e, bill))
+    $('#icon-eye-d').on('click', this.handleClickIconEye)
+    $('#btn-accept-bill').on('click', (e) => this.handleAcceptSubmit(e, bill))
+    $('#btn-refuse-bill').on('click', (e) => this.handleRefuseSubmit(e, bill))
   }
 
   handleAcceptSubmit = (e, bill) => {
@@ -130,6 +131,7 @@ export default class {
   }
 
   handleShowTickets(e, bills, index) {
+    e.stopImmediatePropagation() // fixes the bug on bill selection
     if (this.counter === undefined || this.index !== index) this.counter = 0
     if (this.index === undefined || this.index !== index) this.index = index
     if (this.counter % 2 === 0) {
@@ -145,7 +147,7 @@ export default class {
     }
 
     bills.forEach(bill => {
-      $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
+      $(`#open-bill${bill.id}`).on( 'click',(e) => this.handleEditTicket(e, bill, bills))
     })
 
     return bills
