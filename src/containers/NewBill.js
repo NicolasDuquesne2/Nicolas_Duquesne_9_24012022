@@ -43,7 +43,7 @@ export default class NewBill {
           this.fileUrl = fileUrl
           this.fileName = fileName
         }).catch(error => console.error(error))
-      }
+    }
   }
 
   handleSubmit = e => {
