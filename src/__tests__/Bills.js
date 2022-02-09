@@ -20,11 +20,11 @@ describe("Given I am connected as an employee", () => {
         type: 'Employee'
       })
       window.localStorage.setItem('user', user) // set moked local storage
-      /* commancer depuis le routeur
-      document.body.innerHTML = '<div id="root"></div>'
-      Router() */
-      const html = BillsUI({ data: [] })
-      document.body.innerHTML = html
+      
+      const pathName = ROUTES_PATH['Bills']
+      Object.defineProperty(window, 'location', { value: { hash: pathName} })
+      document.body.innerHTML = "<div id='root'></div>"
+      Router()
       const billIcon = screen.getByTestId("icon-window") // get the bill icon
       billIcon.classList.add('active-icon')
       expect(billIcon).toHaveProperty("className", 'active-icon')

@@ -224,8 +224,7 @@ describe("Given that I am a user on login page", () => {
     });
 
     test("It should renders HR dashboard page", () => {
-      expect(screen.queryByText("Validations")).toBeTruthy(); //err
-
+      expect(screen.queryByText("Validations")).toBeTruthy();
     });
   });
 });

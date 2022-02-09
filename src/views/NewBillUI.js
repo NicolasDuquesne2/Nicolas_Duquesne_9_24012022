@@ -1,6 +1,6 @@
 import VerticalLayout from './VerticalLayout.js'
 
-export default () => {
+export default (error) => {
 
   return (`
     <div class='layout'>

@@ -9,11 +9,14 @@ import { localStorageMock } from "../__mocks__/localStorage.js" // moked local s
 import { ROUTES } from "../constants/routes"
 import store from "../__mocks__/store" // moked store imported
 import userEvent from '@testing-library/user-event' //user events imported
+import BillsUI from "../views/BillsUI.js"
+
 
 
 describe("Given I am connected as an employee", () => {
   describe("When I am going to new bill page", () => {
     test("Then i should load a file with .jpg/.jpeg/.png extention", () => {
+
       Object.defineProperty(window, 'localStorage', { value: localStorageMock })
       window.localStorage.setItem('user', JSON.stringify({
         type: 'Employee',
@@ -22,9 +25,11 @@ describe("Given I am connected as an employee", () => {
 
       const html = NewBillUI()
       document.body.innerHTML = html
+
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({ pathname })
       }
+
       const store = null
       const newBillCont = new NewBill({
         document, onNavigate, store, localStorage: window.localStorage
@@ -38,13 +43,14 @@ describe("Given I am connected as an employee", () => {
       })
 
       const regEx = new RegExp("(.jpeg|.jpg|.png)$", 'gs')
+
       expect(loadFileButton.files.length).toBe(1) //test on array files length. must equals one
       expect(loadFileButton.files[0].name).toMatch(regEx) // file name must match with regex
+
       const handleChangeFile = jest.fn(loadFileButton.handleChangeFile)
       loadFileButton.addEventListener('change', handleChangeFile)
       fireEvent.change(loadFileButton)
       expect(handleChangeFile).toHaveBeenCalled()
-      //tester l'execution de la méthode. Elle doit créer un objet FormData et lui injecter des attributs. Un test sur l'objet ?
     })
 
     test("then i should send the form", () => {
@@ -84,6 +90,7 @@ describe("Given I am connected as an employee", () => {
 
       const form = screen.getByTestId("form-new-bill")
       const handleSubmit = jest.fn(newBillCont.handleSubmit)
+      newBillCont.updateBill = jest.fn().mockResolvedValue({})
       form.addEventListener('submit', handleSubmit)
       fireEvent.submit(form)
       expect(handleSubmit).toHaveBeenCalled()
@@ -94,7 +101,7 @@ describe("Given I am connected as an employee", () => {
 // test d'intégration POST
 describe("Given I am a user connected as Eployee", () => {
   describe("When I create a new bill by sending the form", () => {
-    test("fetches bills from mock API POST", async () => {
+    test("Sets bills into mock API POST", async () => {
 
       const newBill = {
         "id": "47qAXb6fIm2zOKkLzMro",
@@ -111,31 +118,33 @@ describe("Given I am a user connected as Eployee", () => {
         "email": "a@a",
         "pct": 20
       }
+
       const getSpy = jest.spyOn(store, "post")
       await store.post(newBill)
       expect(getSpy).toHaveBeenCalledTimes(1)
       expect(getSpy).toHaveBeenLastCalledWith(newBill)
     })
-  
-    /*
-    test("fetches bills from an API and fails with 404 message error", async () => {
+
+    test("post bills  via an API and fails with 404 message error", async () => {
       store.post.mockImplementationOnce(() =>
-        Promise.reject(new Error("Erreur 401"))
+        Promise.reject(new Error("Erreur 404"))
       )
-      const html = NewBillUI({ error: "Erreur 401" })
+      const html = BillsUI({ error: "Erreur 404" })
       document.body.innerHTML = html
-      const message = await screen.getByText(/Erreur 401/)
+      const message = await screen.getByText(/Erreur 404/)
       expect(message).toBeTruthy()
     })
-
-    test("fetches messages from an API and fails with 500 message error", async () => {
+    
+    test("post bills  via an API and fails with 500 message error", async () => {
       store.post.mockImplementationOnce(() =>
         Promise.reject(new Error("Erreur 500"))
       )
-      const html = NewBillUI({ error: "Erreur 500" })
+      const html = BillsUI({ error: "Erreur 500" })
       document.body.innerHTML = html
       const message = await screen.getByText(/Erreur 500/)
       expect(message).toBeTruthy()
-    })*/
+    })
+
+   
   })
 })
