@@ -26,15 +26,6 @@ describe("Given I am connected as an employee", () => {
       const html = NewBillUI()
       document.body.innerHTML = html
 
-      const onNavigate = (pathname) => {
-        document.body.innerHTML = ROUTES({ pathname })
-      }
-
-      const store = null
-      const newBillCont = new NewBill({
-        document, onNavigate, store, localStorage: window.localStorage
-      })
-
       const loadFileButton = screen.getByTestId('file')
 
       Object.defineProperty(loadFileButton, 'files', {
@@ -42,12 +33,31 @@ describe("Given I am connected as an employee", () => {
         writable: false,
       })
 
+      Object.defineProperty(loadFileButton, 'value', {
+        value: 'C:\\fakepath\\facturefreemobile.jpeg',
+        writable: false,
+      })
+
+
+      const onNavigate = (pathname) => {
+        document.body.innerHTML = ROUTES({ pathname })
+      }
+
+      const ApiEntity = {key: 'bills', api: null, create : jest.fn().mockResolvedValue({})}
+
+      const getBills = jest.fn().mockReturnValue(ApiEntity)
+
+      const mStore = {
+        bills: getBills
+      }
+
+      const newBillCont = new NewBill({
+        document, onNavigate, store: mStore, localStorage: window.localStorage
+      })
+
       const regEx = new RegExp("(.jpeg|.jpg|.png)$", 'gs')
 
-      expect(loadFileButton.files.length).toBe(1) //test on array files length. must equals one
-      expect(loadFileButton.files[0].name).toMatch(regEx) // file name must match with regex
-
-      const handleChangeFile = jest.fn(loadFileButton.handleChangeFile)
+      const handleChangeFile = jest.fn(newBillCont.handleChangeFile)
       loadFileButton.addEventListener('change', handleChangeFile)
       fireEvent.change(loadFileButton)
       expect(handleChangeFile).toHaveBeenCalled()
@@ -65,9 +75,9 @@ describe("Given I am connected as an employee", () => {
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({ pathname })
       }
-      const store = null
+      const mStore = null
       const newBillCont = new NewBill({
-        document, onNavigate, store, localStorage: window.localStorage
+        document, onNavigate, store: mStore, localStorage: window.localStorage
       })
 
       newBillCont.fileUrl = ""
@@ -94,6 +104,7 @@ describe("Given I am connected as an employee", () => {
       form.addEventListener('submit', handleSubmit)
       fireEvent.submit(form)
       expect(handleSubmit).toHaveBeenCalled()
+      expect(newBillCont.updateBill).toHaveBeenCalled()
     })
   })
 })
