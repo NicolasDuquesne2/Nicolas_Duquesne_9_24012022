@@ -42,6 +42,7 @@ export class Bills {
   }
 
   // not need to cover this function by tests
+  /* istanbul ignore next */
   getBills = () => {
     if (this.store) {
       return this.store

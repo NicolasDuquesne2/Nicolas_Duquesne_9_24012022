@@ -26,7 +26,6 @@ describe("Given I am connected as an employee", () => {
       document.body.innerHTML = "<div id='root'></div>"
       Router()
       const billIcon = screen.getByTestId("icon-window") // get the bill icon
-      billIcon.classList.add('active-icon')
       expect(billIcon).toHaveProperty("className", 'active-icon')
     })
     test("Then bills should be ordered from earliest to latest", () => {
@@ -94,40 +93,6 @@ describe('Given I am connected as employee and I am on bills page and I clicked 
       expect(handleClickButton).toHaveBeenCalled()
 
       expect(screen.getAllByText('Envoyer une note de frais')).toBeTruthy()
-    })
-  })
-})
-
-describe("Given I am connected as an employee", () => {
-  describe("When I am on Bills Page (just after connexion)", () => {
-    test("Then bills must be fetched from api GET ", () => {
-      Object.defineProperty(window, 'localStorage', { value: localStorageMock })
-      const user = JSON.stringify({
-        type: 'Employee'
-      })
-      window.localStorage.setItem('user', user) // set moked local storage
-      
-      const onNavigate = (pathname) => {
-        document.body.innerHTML = ROUTES({ pathname })
-      }
-
-      const ApiEntity = {key: 'bills', api: null, list : jest.fn().mockResolvedValue([{}])}
-
-      const getBills = jest.fn().mockReturnValue(ApiEntity)
-
-      const mStore = {
-        bills: getBills
-      }
-
-      const billCont = new Bills({
-        document, onNavigate, store: mStore, localStorage: window.localStorage
-      })
-
-      const spy = jest.spyOn(billCont.store, "bills")
-      const bills = billCont.store.bills()
-
-      expect(spy).toHaveBeenCalled()
-
     })
   })
 })

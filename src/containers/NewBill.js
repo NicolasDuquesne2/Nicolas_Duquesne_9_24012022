@@ -44,6 +44,9 @@ export default class NewBill {
           this.fileName = fileName
         })
         .catch(error => console.error(error))
+    } else {
+      this.document.querySelector(`input[data-testid="file"]`).files = null
+      this.document.querySelector(`input[data-testid="file"]`).value = ""
     }
   }
 
@@ -69,6 +72,7 @@ export default class NewBill {
   }
 
   // not need to cover this function by tests
+  /* istanbul ignore next */
   updateBill = (bill) => {
     if (this.store) {
       this.store
