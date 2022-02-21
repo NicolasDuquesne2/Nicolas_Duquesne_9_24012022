@@ -55,8 +55,6 @@ describe("Given I am connected as an employee", () => {
         document, onNavigate, store: mStore, localStorage: window.localStorage
       })
 
-      const regEx = new RegExp("(.jpeg|.jpg|.png)$", 'gs')
-
       const handleChangeFile = jest.fn(newBillCont.handleChangeFile)
       loadFileButton.addEventListener('change', handleChangeFile)
       fireEvent.change(loadFileButton)

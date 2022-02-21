@@ -21,7 +21,7 @@ export default class NewBill {
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
     const filePath = e.target.value.split(/\\/g)
     const fileName = filePath[filePath.length-1]
-    const regEx = new RegExp("(.jpeg|.jpg|.png)$", 'gs') // regular expression for testing files extentions
+    const regEx = new RegExp("(.jpeg|.jpg|.png)$", 'gsi') // regular expression for testing files extentions
 
     if (fileName.match(regEx)) { // if file extention matches with regex then the bill is created 
       const formData = new FormData()
