@@ -5,7 +5,7 @@
 import { screen } from "@testing-library/dom"
 import BillsUI from "../views/BillsUI.js"
 import { bills } from "../fixtures/bills.js"
-import { Bills, getDescSortedBillsByDate} from "../containers/Bills.js" //sort function imported
+import { Bills} from "../containers/Bills.js" //sort function imported
 import { localStorageMock } from "../__mocks__/localStorage.js" // moked local storage imported
 import { ROUTES, ROUTES_PATH } from "../constants/routes" // routes imported
 import userEvent from '@testing-library/user-event' //user events imported
@@ -29,8 +29,7 @@ describe("Given I am connected as an employee", () => {
       expect(billIcon).toHaveProperty("className", 'active-icon')
     })
     test("Then bills should be ordered from earliest to latest", () => {
-      const ordBills = getDescSortedBillsByDate(bills) //sort function inported
-      const html = BillsUI({ data: ordBills })
+      const html = BillsUI({ data: bills })
       document.body.innerHTML = html
       const dates = screen.getAllByText(/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/i).map(a => a.innerHTML)
       const antiChrono = (a, b) => ((a < b) ? 1 : -1)

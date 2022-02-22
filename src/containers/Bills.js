@@ -10,12 +10,6 @@ import Logout from "./Logout.js"
   abastract: sorts bills by date from newest date to oldest date.
 */
 
-export const getDescSortedBillsByDate = (data) => {
-  const antiChrono = (a, b) => ((a.date < b.date) ? 1 : -1)
-  return [...data].sort(antiChrono)
-}
-
-
 export class Bills {
   constructor({ document, onNavigate, store, localStorage }) {
     this.document = document

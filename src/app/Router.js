@@ -1,6 +1,6 @@
 import store from "./Store.js"
 import Login, { PREVIOUS_LOCATION } from "../containers/Login.js"
-import {Bills, getDescSortedBillsByDate}  from "../containers/Bills.js" //add sort function
+import {Bills}  from "../containers/Bills.js" //add sort function
 import NewBill from "../containers/NewBill.js"
 import Dashboard from "../containers/Dashboard.js"
 import BillsUI from "../views/BillsUI.js"
@@ -31,8 +31,7 @@ export default () => {
       divIcon2.classList.remove('active-icon')
       const bills = new Bills({ document, onNavigate, store, localStorage  })
       bills.getBills().then(data => {
-        const ordBills = getDescSortedBillsByDate(data) //sort function
-        rootDiv.innerHTML = BillsUI({  data: ordBills })
+        rootDiv.innerHTML = BillsUI({  data: data })
         const divIcon1 = document.getElementById('layout-icon1')
         const divIcon2 = document.getElementById('layout-icon2')
         divIcon1.classList.add('active-icon')
@@ -83,8 +82,7 @@ export default () => {
       divIcon2.classList.remove('active-icon')
       const bills = new Bills({ document, onNavigate, store, localStorage  })
       bills.getBills().then(data => {
-        const ordBills = getDescSortedBillsByDate(data) //sort function
-        rootDiv.innerHTML = BillsUI({ data: ordBills })
+        rootDiv.innerHTML = BillsUI({ data: data })
         const divIcon1 = document.getElementById('layout-icon1')
         const divIcon2 = document.getElementById('layout-icon2')
         divIcon1.classList.add('active-icon')
